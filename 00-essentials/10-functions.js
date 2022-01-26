@@ -10,7 +10,7 @@
  * @param {string} name Name of the person like "Daniel", "José", "Carlos"
  * @returns Example: "Hello Daniel"
  */
-function sayHello( greet, name ) /* <-- Parameters */ {
+ function sayHello( greet, name ) /* <-- Parameters */ {
     console.log( arguments );
     // return arguments[0] + " " + arguments[1];
     return greet + " " + name;
