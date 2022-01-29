@@ -1,0 +1,24 @@
+{
+  "name": "javascript-essentials",
+  "version": "1.0.0",
+  "description": "This course is for educational about Javascript",
+  "main": "app.js",
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qbixmex/javascriptEssentials.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qbixmex/javascriptEssentials/issues"
+  },
+  "homepage": "https://github.com/qbixmex/javascriptEssentials#readme",
+  "dependencies": {
+    "jsdoc": "^3.6.10"
+  },
+  "devDependencies": {}
+}
