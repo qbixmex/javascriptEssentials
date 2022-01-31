@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Jack</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="js/game.js" defer></script>
+</head>
+<body>
+    <header class="title mb-4">BlackJack</header>
+
+    <section class="d-flex justify-content-center mb-4">
+        <button class="btn btn-danger">New Game</button>
+        <button class="btn btn-primary mx-3">New Card</button>
+        <button class="btn btn-primary">Stop</button>
+    </section>
+
+    <div class="row m-0 mb-4">
+        <div class="col">
+            <h1 class="text-center mb-3">Player: <span class="orange">0</span></h1>
+            <div id="player-cards" class="player-cards">
+                <img class="game-card" src="assets/cards/2D.png" alt="Card">
+                <img class="game-card" src="assets/cards/3C.png" alt="Card">
+                <img class="game-card" src="assets/cards/4S.png" alt="Card">
+                <img class="game-card" src="assets/cards/AH.png" alt="Card">
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-0 mb-4">
+        <div class="col">
+            <h1 class="text-center mb-3">Machine: <span class="orange">0</span></h1>
+            <div id="machine-cards" class="player-cards">
+                <img class="game-card" src="assets/cards/AH.png" alt="Card">
+                <img class="game-card" src="assets/cards/3C.png" alt="Card">
+                <img class="game-card" src="assets/cards/2D.png" alt="Card">
+                <img class="game-card" src="assets/cards/4S.png" alt="Card">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
