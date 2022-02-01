@@ -47,3 +47,18 @@ const askCard = () => {
 }
 
 // askCard();
+
+/**
+ * Retrieve card points
+ * @param {string} card Example: "2D" | "AH" | "KS"
+ * @returns {number}
+ */
+const cardValue = ( card ) => {
+    const value = card.substring(0, card.length - 1);
+    return ( isNaN( Number( value ) ) )
+        ? ( value === "A" ) ? 11 : 10
+        : Number( value );
+};
+
+const points = cardValue( "AD" );
+console.log( points );
