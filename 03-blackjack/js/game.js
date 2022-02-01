@@ -5,11 +5,16 @@
  * S = Spades  (Espadas)
  */
 
-  let     deck = [];
-const    types = [ "C", "D", "H", "S" ];
-const specials = [ "A", "J", "Q", "K" ];
+let deck = [];
 
-const createDeck = () => {
+/**
+ * Creates a New deck
+ * 
+ * @param {string[]} types [ "C", "D", "H", "S" ] 
+ * @param {string[]} specials [ "A", "J", "Q", "K" ]
+ * @returns {void}
+ */
+const createDeck = (types, specials) => {
     for ( let i = 2; i <= 10; i++ ) {
         for ( let type of types ) {
             deck.push(i + type);
@@ -22,13 +27,23 @@ const createDeck = () => {
         }
     }
 
-    console.log( deck );
-
+    // Shuffle Array
     deck = _.shuffle( deck );
-
-    console.log( deck );
-
-    return deck;
 };
 
-createDeck();
+const    types = [ "C", "D", "H", "S" ];
+const specials = [ "A", "J", "Q", "K" ];
+
+createDeck(types, specials);
+
+/**
+ * Ask a card from shuffle cards array
+ * @returns {string} A card from the shuffle cards array
+ */
+const askCard = () => {
+    if (deck.length === 0) throw "There's no more cards";
+    const card = deck.pop();
+    return card;
+}
+
+// askCard();
