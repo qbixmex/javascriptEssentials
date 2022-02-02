@@ -32,12 +32,9 @@ const machineCards = document.querySelector("#machine-cards");
 
 /**
  * Creates a New deck
- * 
- * @param {string[]} types [ "C", "D", "H", "S" ] 
- * @param {string[]} specials [ "A", "J", "Q", "K" ]
- * @returns {void}
+ * @returns {string[]}
  */
-const createDeck = (types, specials) => {
+const createDeck = () => {
     for ( let i = 2; i <= 10; i++ ) {
         for ( let type of types ) {
             deck.push(i + type);
@@ -52,12 +49,14 @@ const createDeck = (types, specials) => {
 
     // Shuffle Array
     deck = _.shuffle( deck );
+
+    return deck;
 };
 
 const    types = [ "C", "D", "H", "S" ];
 const specials = [ "A", "J", "Q", "K" ];
 
-createDeck(types, specials);
+createDeck();
 
 /**
  * Ask a card from shuffle cards array
@@ -84,7 +83,7 @@ const cardValue = ( card ) => {
 // Machine
 
 /**
- * 
+ * Computer add cards to board.
  * @param {number} minimumScore Player Score
  * @returns {void}
  */
@@ -101,11 +100,23 @@ const machineTurn = ( minimumScore ) => {
         cardImage.alt = "Card";
         machineCards.append( cardImage );
 
-        if ( minimumScore > 21 ){
+        if ( minimumScore > 21 ) {
             break;
         }
 
     } while( ( machineScore < minimumScore ) && ( minimumScore < 21 ) );
+
+    setTimeout(() => {
+        if (machineScore === minimumScore ) {
+            alert("Nobody Won!");
+        } else if ( minimumScore > 21 ) {
+            alert("You Loose!");
+        } else if ( machineScore > 21 ) {
+            alert("You Won!");
+        } else {
+            alert("You Loose!");
+        }
+    }, 300);
 };
 
 newCardBtn.addEventListener("click", () => {
@@ -121,16 +132,16 @@ newCardBtn.addEventListener("click", () => {
     playerCards.append( cardImage );
 
     if ( playerScore > 21 ) {
-        console.warn( "You Loose!" );
-        newCardBtn.classList.replace("btn-primary", "btn-secondary")
         newCardBtn.disabled = true;
         stopGameBtn.disabled = true;
+        newCardBtn.classList.replace("btn-primary", "btn-secondary");
+        stopGameBtn.classList.replace("btn-primary", "btn-secondary");
         machineTurn( playerScore );
     } else if ( playerScore === 21 ) {
-        console.warn("21, You Won!");
-        newCardBtn.classList.replace("btn-primary", "btn-secondary")
         newCardBtn.disabled = true;
         stopGameBtn.disabled = true;
+        newCardBtn.classList.replace("btn-primary", "btn-secondary");
+        stopGameBtn.classList.replace("btn-primary", "btn-secondary");
         machineTurn( playerScore );
     }
 });
@@ -138,5 +149,24 @@ newCardBtn.addEventListener("click", () => {
 stopGameBtn.addEventListener("click", () => {
     newCardBtn.disabled = true;
     stopGameBtn.disabled = true;
+    newCardBtn.classList.replace("btn-primary", "btn-secondary");
+    stopGameBtn.classList.replace("btn-primary", "btn-secondary");
     machineTurn( playerScore );
+});
+
+newGameBtn.addEventListener("click", () => {
+    deck = [];
+    deck = createDeck();
+    playerScore = 0;
+    machineScore = 0;
+    playerScoreUi.innerHTML = String( playerScore );
+    machineScoreUi.innerHTML = String( machineScore );
+
+    playerCards.innerHTML = "";
+    machineCards.innerHTML = "";
+   
+    newCardBtn.disabled = false;
+    stopGameBtn.disabled = false;
+    newCardBtn.classList.replace("btn-secondary", "btn-primary");
+    stopGameBtn.classList.replace("btn-secondary", "btn-primary");
 });
