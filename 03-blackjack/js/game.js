@@ -111,6 +111,8 @@ const machineTurn = ( minimumScore ) => {
             alert("Nobody Won!");
         } else if ( minimumScore > 21 ) {
             alert("You Loose!");
+        } else if ( minimumScore === 21 ) {
+            alert("You Won!");
         } else if ( machineScore > 21 ) {
             alert("You Won!");
         } else {
