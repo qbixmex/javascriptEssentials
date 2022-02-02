@@ -61,4 +61,7 @@ const cardValue = ( card ) => {
 };
 
 const points = cardValue( "AD" );
-console.log( points );
+
+const title = document.querySelector(".title");
+
+title.innerHTML = "Dany";

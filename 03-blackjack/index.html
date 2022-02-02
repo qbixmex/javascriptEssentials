@@ -11,7 +11,7 @@
     <script src="js/game.js" defer></script>
 </head>
 <body>
-    <header class="title mb-4">BlackJack</header>
+    <header class="mb-4"><h1 class="title">BlackJack</h1></header>
 
     <section class="d-flex justify-content-center mb-4">
         <button class="btn btn-danger">New Game</button>
@@ -20,25 +20,19 @@
     </section>
 
     <div class="row m-0 mb-4 justify-content-md-center">
-        <div class="col-12 col-md-4">
-            <h1 class="text-center mb-3">Player: <span class="orange">0</span></h1>
+        <div id="player" class="col-12 col-md-4">
+            <h2 id="player-title" class="subtitle mb-3">Player: <span class="orange">0</span></h2>
             <div id="player-cards" class="player-cards">
                 <img class="game-card" src="assets/cards/2D.png" alt="Card">
-                <img class="game-card" src="assets/cards/3C.png" alt="Card">
-                <img class="game-card" src="assets/cards/4S.png" alt="Card">
-                <img class="game-card" src="assets/cards/AH.png" alt="Card">
             </div>
         </div>
     </div>
 
     <div class="row m-0 mb-4 justify-content-md-center">
-        <div class="col-12 col-md-4">
-            <h1 class="text-center mb-3">Machine: <span class="orange">0</span></h1>
+        <div id="machine" class="col-12 col-md-4">
+            <h2 id="machine-tile" class="subtitle mb-3">Machine: <span class="orange">0</span></h2>
             <div id="machine-cards" class="player-cards">
                 <img class="game-card" src="assets/cards/AH.png" alt="Card">
-                <img class="game-card" src="assets/cards/3C.png" alt="Card">
-                <img class="game-card" src="assets/cards/2D.png" alt="Card">
-                <img class="game-card" src="assets/cards/4S.png" alt="Card">
             </div>
         </div>
     </div>    

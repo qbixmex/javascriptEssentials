@@ -7,8 +7,12 @@ html, body {
     text-align: center;
     background-color: #000;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 2rem;
     padding: 1rem 0;
+}
+
+.subtitle {
+    font-size: 1.75rem;
 }
 
 .player-cards {
