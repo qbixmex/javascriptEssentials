@@ -81,6 +81,33 @@ const cardValue = ( card ) => {
         : Number( value );
 };
 
+// Machine
+
+/**
+ * 
+ * @param {number} minimumScore Player Score
+ * @returns {void}
+ */
+const machineTurn = ( minimumScore ) => {
+    do {
+        const card = askCard();
+
+        machineScore = machineScore + cardValue( card );
+        machineScoreUi.innerHTML = String( machineScore );
+
+        const cardImage = document.createElement("img");
+        cardImage.src = `assets/cards/${card}.png`;
+        cardImage.classList.add("game-card");
+        cardImage.alt = "Card";
+        machineCards.append( cardImage );
+
+        if ( minimumScore > 21 ){
+            break;
+        }
+
+    } while( ( machineScore < minimumScore ) && ( minimumScore < 21 ) );
+};
+
 newCardBtn.addEventListener("click", () => {
     const card = askCard();
 
@@ -91,15 +118,25 @@ newCardBtn.addEventListener("click", () => {
     cardImage.src = `assets/cards/${card}.png`;
     cardImage.classList.add("game-card");
     cardImage.alt = "Card";
+    playerCards.append( cardImage );
 
     if ( playerScore > 21 ) {
         console.warn( "You Loose!" );
         newCardBtn.classList.replace("btn-primary", "btn-secondary")
         newCardBtn.disabled = true;
+        stopGameBtn.disabled = true;
+        machineTurn( playerScore );
     } else if ( playerScore === 21 ) {
         console.warn("21, You Won!");
+        newCardBtn.classList.replace("btn-primary", "btn-secondary")
         newCardBtn.disabled = true;
+        stopGameBtn.disabled = true;
+        machineTurn( playerScore );
     }
+});
 
-    playerCards.append( cardImage );
+stopGameBtn.addEventListener("click", () => {
+    newCardBtn.disabled = true;
+    stopGameBtn.disabled = true;
+    machineTurn( playerScore );
 });
