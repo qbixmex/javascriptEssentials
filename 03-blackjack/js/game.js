@@ -8,12 +8,27 @@
 let deck = [];
 let playerScore = 0;
 let machineScore = 0;
-const newGame = document.querySelector("#new-game");
-const newCard = document.querySelector("#new-card");
-const stopGame = document.querySelector("#stop-game");
-const buttonBox = document.querySelector("#buttons");
+
+// UI Elements
+
+/** @type HTMLButtonElement */
+const newGameBtn = document.querySelector("#new-game");
+
+/** @type HTMLButtonElement */
+const newCardBtn = document.querySelector("#new-card");
+
+/** @type HTMLButtonElement */
+const stopGameBtn = document.querySelector("#stop-game");
+
+const buttonsBox = document.querySelector("#buttons");
+
+// Player Elements
 const playerScoreUi = document.querySelector("#player-score");
+const playerCards = document.querySelector("#player-cards");
+
+// Machine Elements
 const machineScoreUi = document.querySelector("#machine-score");
+const machineCards = document.querySelector("#machine-cards");
 
 /**
  * Creates a New deck
@@ -66,12 +81,25 @@ const cardValue = ( card ) => {
         : Number( value );
 };
 
-const points = cardValue( "AD" );
-
-newCard.addEventListener("click", () => {
+newCardBtn.addEventListener("click", () => {
     const card = askCard();
 
     playerScore = playerScore + cardValue( card );
-
     playerScoreUi.innerHTML = String( playerScore );
+
+    const cardImage = document.createElement("img");
+    cardImage.src = `assets/cards/${card}.png`;
+    cardImage.classList.add("game-card");
+    cardImage.alt = "Card";
+
+    if ( playerScore > 21 ) {
+        console.warn( "You Loose!" );
+        newCardBtn.classList.replace("btn-primary", "btn-secondary")
+        newCardBtn.disabled = true;
+    } else if ( playerScore === 21 ) {
+        console.warn("21, You Won!");
+        newCardBtn.disabled = true;
+    }
+
+    playerCards.append( cardImage );
 });
