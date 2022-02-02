@@ -6,6 +6,14 @@
  */
 
 let deck = [];
+let playerScore = 0;
+let machineScore = 0;
+const newGame = document.querySelector("#new-game");
+const newCard = document.querySelector("#new-card");
+const stopGame = document.querySelector("#stop-game");
+const buttonBox = document.querySelector("#buttons");
+const playerScoreUi = document.querySelector("#player-score");
+const machineScoreUi = document.querySelector("#machine-score");
 
 /**
  * Creates a New deck
@@ -46,8 +54,6 @@ const askCard = () => {
     return card;
 }
 
-// askCard();
-
 /**
  * Retrieve card points
  * @param {string} card Example: "2D" | "AH" | "KS"
@@ -62,6 +68,10 @@ const cardValue = ( card ) => {
 
 const points = cardValue( "AD" );
 
-const title = document.querySelector(".title");
+newCard.addEventListener("click", () => {
+    const card = askCard();
 
-title.innerHTML = "Dany";
+    playerScore = playerScore + cardValue( card );
+
+    playerScoreUi.innerHTML = String( playerScore );
+});
