@@ -11,13 +11,13 @@ let machineScore = 0;
 
 // UI Elements
 
-/** @type HTMLButtonElement */
+/** @type HTMLButtonElement | null */
 const newGameBtn = document.querySelector("#new-game");
 
-/** @type HTMLButtonElement */
+/** @type HTMLButtonElement | null */
 const newCardBtn = document.querySelector("#new-card");
 
-/** @type HTMLButtonElement */
+/** @type HTMLButtonElement | null */
 const stopGameBtn = document.querySelector("#stop-game");
 
 const buttonsBox = document.querySelector("#buttons");
@@ -62,7 +62,7 @@ createDeck();
  * Ask a card from shuffle cards array
  * @returns {string} A card from the shuffle cards array
  */
-const askCard = () => {
+var askCard = () => {
     if (deck.length === 0) throw "There's no more cards";
     const card = deck.pop();
     return card;
@@ -92,17 +92,15 @@ const machineTurn = ( minimumScore ) => {
         const card = askCard();
 
         machineScore = machineScore + cardValue( card );
-        machineScoreUi.innerHTML = String( machineScore );
+        machineScoreUi && (machineScoreUi.innerHTML = String( machineScore ));
 
         const cardImage = document.createElement("img");
         cardImage.src = `assets/cards/${card}.png`;
         cardImage.classList.add("game-card");
         cardImage.alt = "Card";
-        machineCards.append( cardImage );
+        machineCards && (machineCards.append( cardImage ));
 
-        if ( minimumScore > 21 ) {
-            break;
-        }
+        if ( minimumScore > 21 ) break;
 
     } while( ( machineScore < minimumScore ) && ( minimumScore < 21 ) );
 
@@ -121,54 +119,54 @@ const machineTurn = ( minimumScore ) => {
     }, 300);
 };
 
-newCardBtn.addEventListener("click", () => {
+newCardBtn && newCardBtn.addEventListener("click", () => {
     const card = askCard();
 
     playerScore = playerScore + cardValue( card );
-    playerScoreUi.innerHTML = String( playerScore );
+    if (playerScoreUi) playerScoreUi.innerHTML = String( playerScore );
 
     const cardImage = document.createElement("img");
     cardImage.src = `assets/cards/${card}.png`;
     cardImage.classList.add("game-card");
     cardImage.alt = "Card";
-    playerCards.append( cardImage );
+    if (playerCards) playerCards.append( cardImage );
 
     if ( playerScore > 21 ) {
         newCardBtn.disabled = true;
-        stopGameBtn.disabled = true;
+        stopGameBtn && (stopGameBtn.disabled = true);
         newCardBtn.classList.replace("btn-primary", "btn-secondary");
-        stopGameBtn.classList.replace("btn-primary", "btn-secondary");
+        stopGameBtn && stopGameBtn.classList.replace("btn-primary", "btn-secondary");
         machineTurn( playerScore );
     } else if ( playerScore === 21 ) {
         newCardBtn.disabled = true;
-        stopGameBtn.disabled = true;
+        stopGameBtn && (stopGameBtn.disabled = true);
         newCardBtn.classList.replace("btn-primary", "btn-secondary");
-        stopGameBtn.classList.replace("btn-primary", "btn-secondary");
+        if (stopGameBtn) stopGameBtn.classList.replace("btn-primary", "btn-secondary");
         machineTurn( playerScore );
     }
 });
 
-stopGameBtn.addEventListener("click", () => {
-    newCardBtn.disabled = true;
+stopGameBtn && stopGameBtn.addEventListener("click", () => {
+    newCardBtn && (newCardBtn.disabled = true);
     stopGameBtn.disabled = true;
-    newCardBtn.classList.replace("btn-primary", "btn-secondary");
+    newCardBtn && newCardBtn.classList.replace("btn-primary", "btn-secondary");
     stopGameBtn.classList.replace("btn-primary", "btn-secondary");
     machineTurn( playerScore );
 });
 
-newGameBtn.addEventListener("click", () => {
+newGameBtn && newGameBtn.addEventListener("click", () => {
     deck = [];
     deck = createDeck();
-    playerScore = 0;
+    playerScore  = 0;
     machineScore = 0;
-    playerScoreUi.innerHTML = String( playerScore );
-    machineScoreUi.innerHTML = String( machineScore );
+    playerScoreUi  && (playerScoreUi.innerHTML = String( playerScore ));
+    machineScoreUi && (machineScoreUi.innerHTML = String( machineScore ));
 
-    playerCards.innerHTML = "";
-    machineCards.innerHTML = "";
+    playerCards  && (playerCards.innerHTML = "");
+    machineCards && (machineCards.innerHTML = "");
    
-    newCardBtn.disabled = false;
-    stopGameBtn.disabled = false;
-    newCardBtn.classList.replace("btn-secondary", "btn-primary");
-    stopGameBtn.classList.replace("btn-secondary", "btn-primary");
+    newCardBtn  && (newCardBtn.disabled = false);
+    stopGameBtn && (stopGameBtn.disabled = false);
+    newCardBtn  && (newCardBtn.classList.replace("btn-secondary", "btn-primary"));
+    stopGameBtn && (stopGameBtn.classList.replace("btn-secondary", "btn-primary"));
 });
