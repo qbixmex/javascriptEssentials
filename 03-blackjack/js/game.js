@@ -1,5 +1,5 @@
 /**
- * C = Clubs   (Treboles)
+ * C = Clubs   (Tréboles)
  * D = Daimons (Diamantes)
  * H = Hearts  (Corazones)
  * S = Spades  (Espadas)
@@ -9,32 +9,61 @@
     'use strick'
     
     let deck = [];
-    let playerScore = 0;
-    let machineScore = 0;
+
+    // let playerScore = 0;
+    // let machineScore = 0;
+
+    /** @type {number[]} */
+    let playersScore = [];
+
+    const    types = [ "C", "D", "H", "S" ];
+    const specials = [ "A", "J", "Q", "K" ];
     
-    // UI Elements
+    /* =================== UI Elements =================== */
     
-    /** @type HTMLButtonElement | null */
+    /** @type HTMLButtonElement | null **/
     const newGameBtn = document.querySelector("#new-game");
     
-    /** @type HTMLButtonElement | null */
+    /** @type HTMLButtonElement | null **/
     const newCardBtn = document.querySelector("#new-card");
-    
-    /** @type HTMLButtonElement | null */
+
+    /** @type HTMLButtonElement | null **/
     const stopGameBtn = document.querySelector("#stop-game");
-    
-    const buttonsBox = document.querySelector("#buttons");
-    
-    // Player Elements
+
+    /* =================== Player Elements =================== */
+
+    /** @type Element | null */
     const playerScoreUi = document.querySelector("#player-score");
+
+    /** @type Element | null */
     const playerCards = document.querySelector("#player-cards");
-    
-    // Machine Elements
+
+    /* =================== Machine Elements =================== */
+
+    /** @type Element | null */
     const machineScoreUi = document.querySelector("#machine-score");
+
+    /** @type Element | null */
     const machineCards = document.querySelector("#machine-cards");
-    
+
+    /**
+     * Game initialization
+     * 
+     * @param {number=} playersQuantity
+     * @returns {void} Calls "createDeck()"
+     */
+    const initializeGame = ( playersQuantity = 2 ) => {
+        deck = createDeck();
+        for ( let i = 0; i < playersQuantity; i++) {
+            playersScore.push(0);
+        }
+
+        console.log( { playersScore } );
+    };
+
     /**
      * Creates a New deck
+     * 
      * @returns {string[]}
      */
     const createDeck = () => {
@@ -50,16 +79,10 @@
             }
         }
     
+        // @ts-ignore
         // Shuffle Array
-        deck = _.shuffle( deck );
-    
-        return deck;
+        return _.shuffle( deck );
     };
-    
-    const    types = [ "C", "D", "H", "S" ];
-    const specials = [ "A", "J", "Q", "K" ];
-    
-    createDeck();
     
     /**
      * Ask a card from shuffle cards array
@@ -67,10 +90,9 @@
      */
     const askCard = () => {
         if (deck.length === 0) throw "There's no more cards";
-        const card = deck.pop();
-        return card;
+        return deck.pop();
     }
-    
+
     /**
      * Retrieve card points
      * @param {string} card Example: "2D" | "AH" | "KS"
@@ -83,7 +105,9 @@
             : Number( value );
     };
     
-    // Machine
+    const accumulateScore = () => {};
+
+    /* =================== Machine =================== */
     
     /**
      * Computer add cards to board.
@@ -135,7 +159,7 @@
         if (playerCards) playerCards.append( cardImage );
     
         if ( playerScore > 21 ) {
-            newCardBtn.disabled = true;
+            newCardBtn && (newCardBtn.disabled = true);
             stopGameBtn && (stopGameBtn.disabled = true);
             newCardBtn.classList.replace("btn-primary", "btn-secondary");
             stopGameBtn && stopGameBtn.classList.replace("btn-primary", "btn-secondary");
@@ -158,8 +182,10 @@
     });
     
     newGameBtn && newGameBtn.addEventListener("click", () => {
-        deck = [];
-        deck = createDeck();
+        console.clear();
+        initializeGame();
+        // deck = [];
+        // deck = createDeck();
         playerScore  = 0;
         machineScore = 0;
         playerScoreUi  && (playerScoreUi.innerHTML = String( playerScore ));
