@@ -13,24 +13,29 @@
 
     <section id="buttons" class="d-flex justify-content-center mb-4">
         <button id="new-game" class="btn btn-danger">New Game</button>
-        <button id="new-card" class="btn btn-primary mx-3">New Card</button>
-        <button id="stop-game" class="btn btn-primary">Stop</button>
+        <button id="new-card" class="btn btn-secondary mx-3" disabled>New Card</button>
+        <button id="stop-game" class="btn btn-secondary" disabled>Stop</button>
     </section>
 
     <div class="row m-0 mb-4 justify-content-md-center">
         <div id="player" class="col-12 col-md-4">
-            <h2 class="subtitle mb-3">Player: <span id="player-score" class="orange">0</span></h2>
-            <div id="player-cards" class="player-cards"></div>
+            <h2 class="subtitle mb-3">Player: <span class="player-scores orange">0</span></h2>
+            <div class="player-cards"></div>
         </div>
     </div>
 
     <div class="row m-0 mb-4 justify-content-md-center">
         <div id="machine" class="col-12 col-md-4">
-            <h2 class="subtitle mb-3">Machine: <span id="machine-score" class="orange">0</span></h2>
-            <div id="machine-cards" class="player-cards"></div>
+            <h2 class="subtitle mb-3">Machine: <span class="player-scores orange">0</span></h2>
+            <div class="player-cards"></div>
         </div>
     </div>
     <script src="js/underscore.min.js"></script>
     <script src="js/game.js"></script>
+    <script>
+        document.querySelector("#new-game").addEventListener("click", () => {        
+            myModule.newGame();
+        });
+    </script>
 </body>
 </html>

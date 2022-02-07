@@ -5,16 +5,13 @@
  * S = Spades  (Espadas)
  */
 
-(function() {
+const myModule = (function() {
     'use strick'
     
     let deck = [];
 
-    // let playerScore = 0;
-    // let machineScore = 0;
-
     /** @type {number[]} */
-    let playersScore = [];
+    let playersScore = [];    
 
     const    types = [ "C", "D", "H", "S" ];
     const specials = [ "A", "J", "Q", "K" ];
@@ -22,26 +19,20 @@
     /* =================== UI Elements =================== */
     
     /** @type HTMLButtonElement | null **/
-    const newGameBtn = document.querySelector("#new-game");
-    
-    /** @type HTMLButtonElement | null **/
     const newCardBtn = document.querySelector("#new-card");
 
     /** @type HTMLButtonElement | null **/
     const stopGameBtn = document.querySelector("#stop-game");
 
+    /** @type NodeListOf<HTMLSpanElement> */
+    const playerScoresUi = document.querySelectorAll(".player-scores");
+
     /* =================== Player Elements =================== */
 
-    /** @type Element | null */
-    const playerScoreUi = document.querySelector("#player-score");
-
-    /** @type Element | null */
-    const playerCards = document.querySelector("#player-cards");
-
+    /** @type NodeListOf<HTMLImageElement> */
+    const cardsUi = document.querySelectorAll(".player-cards");
+    
     /* =================== Machine Elements =================== */
-
-    /** @type Element | null */
-    const machineScoreUi = document.querySelector("#machine-score");
 
     /** @type Element | null */
     const machineCards = document.querySelector("#machine-cards");
@@ -54,11 +45,22 @@
      */
     const initializeGame = ( playersQuantity = 2 ) => {
         deck = createDeck();
+
+        playersScore = [];
+
         for ( let i = 0; i < playersQuantity; i++) {
             playersScore.push(0);
         }
 
-        console.log( { playersScore } );
+        playerScoresUi.forEach( playerScoreUi => playerScoreUi.innerHTML = "0");
+
+        cardsUi.forEach( cardUi => cardUi.innerHTML = "" );
+
+        newCardBtn  && ( newCardBtn.disabled = false );
+        stopGameBtn && ( stopGameBtn.disabled = false );
+
+        newCardBtn  && ( newCardBtn.classList.replace("btn-secondary", "btn-primary") );
+        stopGameBtn && ( stopGameBtn.classList.replace("btn-secondary", "btn-primary") );
     };
 
     /**
@@ -105,32 +107,45 @@
             : Number( value );
     };
     
-    const accumulateScore = () => {};
-
-    /* =================== Machine =================== */
-    
     /**
-     * Computer add cards to board.
-     * @param {number} minimumScore Player Score
+     * Accumulate score in array.
+     * 
+     * @param {string} card Card example: "2D" | "AH" | "KS"
+     * @param {number} turn Player number
+     * @returns {number} Player Score
+     */
+    const accumulateScore = ( card, turn ) => {
+        playersScore[ turn ] = playersScore[ turn ] + cardValue( card );
+        playerScoresUi[ turn ].innerHTML = String( playersScore[ turn ] );
+
+        return playersScore[ turn ];
+    };
+
+    /**
+     * Append card to ui.
+     * 
+     * @param {string} card example: "2D" | "AH" | "KS"
+     * @param {number} turn Player turn
      * @returns {void}
      */
-    const machineTurn = ( minimumScore ) => {
-        do {
-            const card = askCard();
-    
-            machineScore = machineScore + cardValue( card );
-            machineScoreUi && (machineScoreUi.innerHTML = String( machineScore ));
-    
-            const cardImage = document.createElement("img");
-            cardImage.src = `assets/cards/${card}.png`;
-            cardImage.classList.add("game-card");
-            cardImage.alt = "Card";
-            machineCards && (machineCards.append( cardImage ));
-    
-            if ( minimumScore > 21 ) break;
-    
-        } while( ( machineScore < minimumScore ) && ( minimumScore < 21 ) );
-    
+    const cardCreate = ( card, turn ) => {
+        const cardImage = document.createElement("img");
+        cardImage.src = `assets/cards/${card}.png`;
+        cardImage.classList.add("game-card");
+        cardImage.alt = "Card";
+        cardsUi[ turn ].append( cardImage );
+    };
+
+    /**
+     * Set who won the game.
+     * 
+     * @param {number} machineScore
+     * @param {number} minimumScore
+     * @returns {void}
+     */
+    const setWinner = () => {
+        const [ minimumScore, machineScore ] = playersScore;
+
         setTimeout(() => {
             if (machineScore === minimumScore ) {
                 alert("Nobody Won!");
@@ -144,19 +159,32 @@
                 alert("You Loose!");
             }
         }, 300);
+    }
+
+    /* =================== Machine =================== */
+
+    /**
+     * Computer add cards to board.
+     * @param {number} minimumScore Player Score
+     * @returns {void}
+     */
+    const machineTurn = ( minimumScore ) => {
+        let machineScore = 0;
+
+        do {
+            const card = askCard();
+            machineScore = accumulateScore( card, 1 );
+            cardCreate(card, 1);
+        } while( ( machineScore < minimumScore ) && ( minimumScore < 21 ) );
+    
+        setWinner();
     };
     
-    newCardBtn && newCardBtn.addEventListener("click", () => {
+    newCardBtn && newCardBtn.addEventListener("click", () => {        
         const card = askCard();
-    
-        playerScore = playerScore + cardValue( card );
-        if (playerScoreUi) playerScoreUi.innerHTML = String( playerScore );
-    
-        const cardImage = document.createElement("img");
-        cardImage.src = `assets/cards/${card}.png`;
-        cardImage.classList.add("game-card");
-        cardImage.alt = "Card";
-        if (playerCards) playerCards.append( cardImage );
+        const playerScore = accumulateScore( card, 0 );
+
+        cardCreate(card, 0);
     
         if ( playerScore > 21 ) {
             newCardBtn && (newCardBtn.disabled = true);
@@ -178,25 +206,10 @@
         stopGameBtn.disabled = true;
         newCardBtn && newCardBtn.classList.replace("btn-primary", "btn-secondary");
         stopGameBtn.classList.replace("btn-primary", "btn-secondary");
-        machineTurn( playerScore );
+        machineTurn( playersScore[0] );
     });
-    
-    newGameBtn && newGameBtn.addEventListener("click", () => {
-        console.clear();
-        initializeGame();
-        // deck = [];
-        // deck = createDeck();
-        playerScore  = 0;
-        machineScore = 0;
-        playerScoreUi  && (playerScoreUi.innerHTML = String( playerScore ));
-        machineScoreUi && (machineScoreUi.innerHTML = String( machineScore ));
-    
-        playerCards  && (playerCards.innerHTML = "");
-        machineCards && (machineCards.innerHTML = "");
-       
-        newCardBtn  && (newCardBtn.disabled = false);
-        stopGameBtn && (stopGameBtn.disabled = false);
-        newCardBtn  && (newCardBtn.classList.replace("btn-secondary", "btn-primary"));
-        stopGameBtn && (stopGameBtn.classList.replace("btn-secondary", "btn-primary"));
-    });
+   
+    return {
+        newGame: initializeGame
+    };
 })();
