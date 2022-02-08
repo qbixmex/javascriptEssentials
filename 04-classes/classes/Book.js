@@ -21,13 +21,13 @@ class Book {
 
   /** Prints object to the console. */
   print() {
-    console.log(`
-      Title: ${this.title}
-      Level: ${this.level}
-      Tax: $${this.calculateTax()} (${this.tax}%)
-      Price: $${this.price.toFixed(2)}
-      Total Price: $${this.totalPrice().toFixed(2)}
-    `);
+    let message = "";
+    message += `Title: ${ this.title }\n`;
+    message += `Level: ${ this.level }\n`;
+    message += `Tax: $${ this.calculateTax() } (${ this.tax }%)\n`;
+    message += `Price: $${ this.price.toFixed(2) }\n`;
+    message += `Total Price: $${ this.totalPrice().toFixed(2) }\n`;
+    console.log( message );
   }
 
   calculateTax() {
