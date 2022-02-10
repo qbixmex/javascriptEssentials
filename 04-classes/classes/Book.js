@@ -6,6 +6,17 @@
  * book.printTotal();
  */
 class Book {
+  static #_tax = 10;
+
+  /**
+   * Get percentage value
+   * 
+   * @returns {string} example: 4%
+   */
+  static get getTaxPercentage() {
+    return String(Book.#_tax) + "%";
+  }
+
   #tax = 10;
   #_quantity = 0;
   available = false;
@@ -15,10 +26,11 @@ class Book {
    * @param {string} level example: beginner, medium, advanced
    * @param {number} price example: 12.95, 22.45
    */
-  constructor(title = "Empty Title", level = "Empty Level", price = 0){
+  constructor(title = "Empty Title", level = "Empty Level", author = "", price = 0){
     this.title = title;
     this.level = level;
     this.price = price;
+    this.author = author;
   }
 
   /** Prints object to the console. */
@@ -26,6 +38,7 @@ class Book {
     let message = "";
     message += `Title: ${ this.title }\n`;
     message += `Level: ${ this.level }\n`;
+    message += `Author: ${ this.author }\n`;
     message += `Tax: $${ this.calculateTax() } (${ this.#tax }%)\n`;
     message += `Quantity: ${ this.quantity }\n`;
     message += `Available: ${ this.available ? "Yes": "No" }\n`;
