@@ -1,3 +1,5 @@
+import Book from "./Book.js";
+
 const book = new Book("Javascript", "beginner", "John Doe", 12.90);
 
 book.setAvailable = true;
@@ -22,4 +24,4 @@ console.log(
 
 console.log( "=".repeat(30) );
 
-book.greeting("John Doe");
+book.greeting("John Doe")

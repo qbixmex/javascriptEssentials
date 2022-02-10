@@ -63,3 +63,5 @@ class Product {
         console.log(`Hello ${name}`);
     }
 }
+
+export default Product;

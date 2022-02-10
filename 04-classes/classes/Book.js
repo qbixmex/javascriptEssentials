@@ -1,3 +1,5 @@
+import Product from "./Product.js";
+
 /**
  * Class to create a Book Instance
  * @example
@@ -27,3 +29,5 @@ class Book extends Product {
         console.log(`how are you today?`);
     }
 }
+
+export default Book;
